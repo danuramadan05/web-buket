@@ -24,13 +24,11 @@
         }
 
         body {
-            /* ── BACKGROUND GAMBAR LOKAL ── */
             background-image: url('5.jpg'); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -71,7 +69,6 @@
                 0 4px 15px rgba(0, 0, 0, 0.05),
                 inset 0 2px 3px rgba(255, 255, 255, 0.9),
                 inset 0 -2px 5px rgba(255, 255, 255, 0.3);
-            
             animation: fadeSlideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
@@ -216,23 +213,9 @@
             overflow: hidden;
         }
 
-        .btn-ios::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg);
-            transition: all 0.5s ease;
-        }
-
         .btn-ios:hover:not(:disabled) {
             transform: translateY(-3px) scale(1.01);
             box-shadow: 0 15px 35px rgba(255, 117, 140, 0.6);
-        }
-
-        .btn-ios:hover:not(:disabled)::after {
-            left: 200%;
         }
 
         .btn-ios:active:not(:disabled) {
@@ -246,6 +229,15 @@
             animation: none;
             box-shadow: none;
             transform: none;
+        }
+
+        /* ── SUCCESS STATE BUTTON ── */
+        .btn-ios.success {
+            background: #34c759 !important; /* Warna Hijau Premium */
+            box-shadow: 0 10px 25px rgba(52, 199, 89, 0.4) !important;
+            animation: none;
+            color: white;
+            transform: scale(1.02);
         }
 
         .glass-note {
@@ -262,7 +254,6 @@
             border-right: 1px solid rgba(255,255,255,0.8);
             border-bottom: 1px solid rgba(255,255,255,0.8);
             border-top: 1px solid rgba(255,255,255,0.8);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
             animation: fadeSlideUp 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
@@ -292,7 +283,6 @@
             line-height: 1.8;
         }
 
-        /* ── CSS FOOTER PROFESIONAL DENGAN TAGLINE ── */
         .professional-footer {
             margin-top: 35px;
             text-align: center;
@@ -301,7 +291,6 @@
             animation: fadeSlideUp 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
         
-        /* Gaya Slogan / Tag Brand */
         .professional-footer .footer-tagline {
             font-family: 'Playfair Display', serif;
             font-size: 14px;
@@ -322,6 +311,60 @@
         .professional-footer span {
             color: #ff758c;
             font-weight: 700;
+        }
+
+        /* ── SCROLL TO TOP BUTTON CSS ── */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid #ff758c;
+            color: #ff758c;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 117, 140, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .scroll-top-btn svg {
+            transition: transform 0.3s ease;
+        }
+
+        .scroll-top-btn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top-btn:hover {
+            background: #ff758c;
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(255, 117, 140, 0.5);
+        }
+
+        .scroll-top-btn:hover svg {
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 600px) {
+            .scroll-top-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
         }
     </style>
 </head>
@@ -427,15 +470,43 @@
         </footer>
     </div>
 
+    <button id="scrollTopBtn" class="scroll-top-btn" title="Kembali ke Atas">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
     <script>
+        // ── LOGIKA SCROLL TO TOP ──
+        const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+        // Munculkan tombol kalau di-scroll ke bawah lebih dari 200px
+        window.onscroll = function() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollTopBtn.classList.add("show");
+            } else {
+                scrollTopBtn.classList.remove("show");
+            }
+        };
+
+        // Ketika tombol ditekan, gulir halus (smooth) ke atas
+        scrollTopBtn.addEventListener("click", function() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+
+        // ── LOGIKA FORM DAN ANIMASI SUKSES ──
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const submitBtn = document.getElementById('submitBtn');
             const originalText = submitBtn.innerHTML;
             
-            // Mengaktifkan loading state
-            submitBtn.innerHTML = 'Membuka WhatsApp... ⏳';
+            // Tahap 1: Ubah ke Loading State (Mencegah klik dobel)
+            submitBtn.innerHTML = 'Memproses... ⏳';
             submitBtn.disabled = true;
 
             const nama = document.getElementById('nama').value;
@@ -473,14 +544,24 @@
 
             const urlWhatsApp = `https://wa.me/${nomorAdminWhatsApp}?text=${encodeURIComponent(textPesan)}`;
             
-            // Efek delay loading UX selama 1.5 detik
+            // Tahap 2: Animasi Sukses (Warna Hijau) setelah jeda 800 milidetik
             setTimeout(() => {
-                window.open(urlWhatsApp, '_blank');
+                submitBtn.classList.add('success');
+                submitBtn.innerHTML = 'Berhasil! Mengalihkan... ✅';
                 
-                // Mengembalikan tombol ke semula setelah dialihkan
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }, 1500);
+                // Tahap 3: Pindah ke WA setelah user melihat tulisan "Berhasil" (1 detik kemudian)
+                setTimeout(() => {
+                    window.open(urlWhatsApp, '_blank');
+                    
+                    // Kembalikan tombol ke kondisi awal saat user balik ke web
+                    setTimeout(() => {
+                        submitBtn.classList.remove('success');
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }, 1000);
+                    
+                }, 1000);
+            }, 800);
         });
     </script>
 
