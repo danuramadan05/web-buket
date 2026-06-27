@@ -310,7 +310,7 @@
 
             <div class="form-group">
                 <label>No. WhatsApp</label>
-                <input type="tel" id="nowa" placeholder="0812xxxxxxxx" required>
+                <input type="tel" id="nowa" placeholder="081..." required>
             </div>
 
             <div class="form-group">
@@ -346,7 +346,7 @@
 
             <div class="form-group">
                 <label>Request Tambahan</label>
-                <textarea id="tambahan" placeholder="Tulis isi teks kartu ucapan atau request khusus lainnya..."></textarea>
+                <textarea id="tambahan" placeholder="Isi tambahan lainnya"></textarea>
             </div>
 
             <div class="form-group">
@@ -360,7 +360,7 @@
 
             <div class="form-group">
                 <label>Alamat Lengkap</label>
-                <textarea id="alamat" placeholder="Tulis alamat rumah lengkap atau lokasi janjian COD" required></textarea>
+                <textarea id="alamat" placeholder="Alamat rumah atau lokasi janjian COD" required></textarea>
             </div>
 
             <div class="form-group">
@@ -386,48 +386,49 @@
 
     <script>
         document.getElementById('orderForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+    e.preventDefault();
 
-            const nama = document.getElementById('nama').value;
-            const nowa = document.getElementById('nowa').value;
-            const tanggal = document.getElementById('tanggal').value;
-            const jenis = document.getElementById('jenis').value;
-            const tema = document.getElementById('tema').value;
-            const isi = document.getElementById('isi').value;
-            const ucapan = document.getElementById('ucapan').value;
-            const tambahan = document.getElementById('tambahan').value || '-';
-            const pengambilan = document.getElementById('pengambilan').value;
-            const alamat = document.getElementById('alamat').value;
-            const pembayaran = document.getElementById('pembayaran').value;
+    const nama = document.getElementById('nama').value;
+    const nowa = document.getElementById('nowa').value;
+    const tanggal = document.getElementById('tanggal').value;
+    const jenis = document.getElementById('jenis').value;
+    const tema = document.getElementById('tema').value;
+    const isi = document.getElementById('isi').value;
+    const ucapan = document.getElementById('ucapan').value;
+    const tambahan = document.getElementById('tambahan').value || '-';
+    const pengambilan = document.getElementById('pengambilan').value;
+    const alamat = document.getElementById('alamat').value;
+    const pembayaran = document.getElementById('pembayaran').value;
 
-            // ===== GANTI NOMOR WA TOKO KAKAK DI SINI =====
-            const nomorAdminWhatsApp = '6281234567890'; 
+    // Nomor sudah dimasukkan di sini
+    const nomorAdminWhatsApp = '6287861076030'; 
 
-            let textPesan = `🌷 *FORMAT PEMESANAN BUKET* 🌷\n\n`;
-            textPesan += `Halo kak, terima kasih sudah tertarik order buket di @bloom_bymega 💌\n`;
-            textPesan += `Silakan isi format pemesanan di bawah ini yaa:\n\n`;
-            textPesan += `╭───────────────\n`;
-            textPesan += `📌 *DATA PEMESANAN*\n`;
-            textPesan += `• *Nama* : ${nama}\n`;
-            textPesan += `• *No. WhatsApp* : ${nowa}\n`;
-            textPesan += `• *Tanggal pemakaian/pengambilan* : ${tanggal}\n`;
-            textPesan += `• *Jenis buket* : ${jenis}\n`;
-            textPesan += `• *Tema/Warna buket* : ${tema}\n`;
-            textPesan += `• *Isi buket (tangkai)* : ${isi}\n`;
-            textPesan += `• *Request ucapan/kartu* : ${ucapan}\n`;
-            textPesan += `• *Request tambahan* : ${tambahan}\n`;
-            textPesan += `• *Metode pengambilan* : ${pengambilan}\n`;
-            textPesan += `• *Alamat lengkap* : ${alamat}\n`;
-            textPesan += `• *Metode pembayaran* : ${pembayaran}\n`;
-            textPesan += `╰───────────────\n\n`;
-            textPesan += `✨ *Note:*\n`;
-            textPesan += `• Bisa request custom sesuai budget\n`;
-            textPesan += `• Mohon order H-7 agar hasil lebih maksimal 🤍\n\n`;
-            textPesan += `Terima kasih sudah order di @bloom_bymega 🌸`;
+    let textPesan = `🌷 *FORMAT PEMESANAN BUKET* 🌷\n\n`;
+    textPesan += `Halo kak, terima kasih sudah tertarik order buket di @bloom_bymega 💌\n`;
+    textPesan += `Silakan isi format pemesanan di bawah ini yaa:\n\n`;
+    textPesan += `╭───────────────\n`;
+    textPesan += `📌 *DATA PEMESANAN*\n`;
+    textPesan += `• *Nama* : ${nama}\n`;
+    textPesan += `• *No. WhatsApp* : ${nowa}\n`;
+    textPesan += `• *Tanggal pemakaian/pengambilan* : ${tanggal}\n`;
+    textPesan += `• *Jenis buket* : ${jenis}\n`;
+    textPesan += `• *Tema/Warna buket* : ${tema}\n`;
+    textPesan += `• *Isi buket (tangkai)* : ${isi}\n`;
+    textPesan += `• *Request ucapan/kartu* : ${ucapan}\n`;
+    textPesan += `• *Request tambahan* : ${tambahan}\n`;
+    textPesan += `• *Metode pengambilan* : ${pengambilan}\n`;
+    textPesan += `• *Alamat lengkap* : ${alamat}\n`;
+    textPesan += `• *Metode pembayaran* : ${pembayaran}\n`;
+    textPesan += `╰───────────────\n\n`;
+    textPesan += `✨ *Note:*\n`;
+    textPesan += `• Bisa request custom sesuai budget\n`;
+    textPesan += `• Mohon order H-7 agar hasil lebih maksimal 🤍\n\n`;
+    textPesan += `Terima kasih sudah order di @bloom_bymega 🌸`;
 
-            const urlWhatsApp = `https://api.whatsapp.com/send?phone='6287861076030'&text=${encodeURIComponent(textPesan)}`;
-            window.open(urlWhatsApp, '_blank');
-        });
+    // Menggunakan wa.me agar lebih stabil dan langsung masuk ke chat
+    const urlWhatsApp = `https://wa.me/${nomorAdminWhatsApp}?text=${encodeURIComponent(textPesan)}`;
+    window.open(urlWhatsApp, '_blank');
+});
     </script>
 
 </body>
