@@ -52,7 +52,7 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── CONTAINER UTAMA ── */
+        /* ── CONTAINER UTAMA (EFEK KACA) ── */
         .iphone-glass-card {
             position: relative;
             z-index: 1;
@@ -193,6 +193,7 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* ── TOMBOL SUBMIT UTAMA ── */
         .btn-ios {
             width: 100%;
             padding: 18px;
@@ -222,21 +223,31 @@
             transform: translateY(1px);
         }
 
-        /* LOADING STATE BUTTON */
+        @keyframes pulseGlass {
+            0% { opacity: 0.8; box-shadow: 0 4px 15px rgba(255, 117, 140, 0.1); }
+            50% { opacity: 1; box-shadow: 0 4px 20px rgba(255, 117, 140, 0.3); }
+            100% { opacity: 0.8; box-shadow: 0 4px 15px rgba(255, 117, 140, 0.1); }
+        }
+
+        /* ── LOADING STATE MENYESUAIKAN TEMA GLASS ── */
         .btn-ios:disabled {
-            background: #ffb8c6;
-            cursor: not-allowed;
-            animation: none;
-            box-shadow: none;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1.5px solid rgba(255, 117, 140, 0.5);
+            color: #ff758c; /* Tulisan berubah pink */
+            cursor: wait;
+            animation: pulseGlass 1.5s infinite ease-in-out;
             transform: none;
         }
 
-        /* ── SUCCESS STATE BUTTON ── */
+        /* ── SUCCESS STATE MENYESUAIKAN TEMA GLASS (Hijau Pastel) ── */
         .btn-ios.success {
-            background: #34c759 !important; /* Warna Hijau Premium */
-            box-shadow: 0 10px 25px rgba(52, 199, 89, 0.4) !important;
+            background: rgba(230, 255, 240, 0.85) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1.5px solid #a8e6cf !important;
+            color: #2b9348 !important; /* Hijau elegan */
+            box-shadow: 0 10px 25px rgba(168, 230, 207, 0.4) !important;
             animation: none;
-            color: white;
             transform: scale(1.02);
         }
 
@@ -313,20 +324,24 @@
             font-weight: 700;
         }
 
-        /* ── SCROLL TO TOP BUTTON CSS ── */
+        /* ── TOMBOL SCROLL TO TOP (TEMA EFEK KACA) ── */
         .scroll-top-btn {
             position: fixed;
             bottom: 30px;
             right: 30px;
             width: 50px;
             height: 50px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 2px solid #ff758c;
+            /* Desain kaca sama seperti form utama */
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             color: #ff758c;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(255, 117, 140, 0.3);
+            /* Bayangan lapis khas 3D glass */
+            box-shadow: 
+                0 10px 25px rgba(0, 0, 0, 0.1),
+                inset 0 2px 3px rgba(255, 255, 255, 0.9);
             opacity: 0;
             visibility: hidden;
             transform: translateY(20px);
@@ -348,10 +363,9 @@
         }
 
         .scroll-top-btn:hover {
-            background: #ff758c;
-            color: white;
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(255, 117, 140, 0.5);
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 117, 140, 0.2);
         }
 
         .scroll-top-btn:hover svg {
@@ -480,7 +494,6 @@
         // ── LOGIKA SCROLL TO TOP ──
         const scrollTopBtn = document.getElementById("scrollTopBtn");
 
-        // Munculkan tombol kalau di-scroll ke bawah lebih dari 200px
         window.onscroll = function() {
             if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
                 scrollTopBtn.classList.add("show");
@@ -489,14 +502,12 @@
             }
         };
 
-        // Ketika tombol ditekan, gulir halus (smooth) ke atas
         scrollTopBtn.addEventListener("click", function() {
             window.scrollTo({
                 top: 0,
                 behavior: "smooth"
             });
         });
-
 
         // ── LOGIKA FORM DAN ANIMASI SUKSES ──
         document.getElementById('orderForm').addEventListener('submit', function(e) {
@@ -505,7 +516,7 @@
             const submitBtn = document.getElementById('submitBtn');
             const originalText = submitBtn.innerHTML;
             
-            // Tahap 1: Ubah ke Loading State (Mencegah klik dobel)
+            // Tahap 1: Loading State dengan Efek Kaca (Glass)
             submitBtn.innerHTML = 'Memproses... ⏳';
             submitBtn.disabled = true;
 
@@ -544,16 +555,16 @@
 
             const urlWhatsApp = `https://wa.me/${nomorAdminWhatsApp}?text=${encodeURIComponent(textPesan)}`;
             
-            // Tahap 2: Animasi Sukses (Warna Hijau) setelah jeda 800 milidetik
+            // Tahap 2: Animasi Sukses (Hijau Pastel Elegan)
             setTimeout(() => {
                 submitBtn.classList.add('success');
                 submitBtn.innerHTML = 'Berhasil! Mengalihkan... ✅';
                 
-                // Tahap 3: Pindah ke WA setelah user melihat tulisan "Berhasil" (1 detik kemudian)
+                // Tahap 3: Pindah ke WA
                 setTimeout(() => {
                     window.open(urlWhatsApp, '_blank');
                     
-                    // Kembalikan tombol ke kondisi awal saat user balik ke web
+                    // Kembalikan tombol ke kondisi awal
                     setTimeout(() => {
                         submitBtn.classList.remove('success');
                         submitBtn.innerHTML = originalText;
